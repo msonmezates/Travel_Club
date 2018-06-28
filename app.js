@@ -6,9 +6,15 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const campgrounds = [
-  {name:'Pace Bend', image:'https://austinot.com/wp-content/uploads/2017/01/camping2pacebendJPG.jpg'},
-  {name:'Hill Country', image:'https://i.pinimg.com/736x/9d/19/37/9d1937617e2f0839d145c3a9e7e4dba2--tent-camping-camping-outdoors.jpg'},
-  {name:'River Torridon', image:'http://s0.geograph.org.uk/geophotos/01/30/72/1307243_6767b04c.jpg'}
+  {name:'Pace Bend', image:'https://mabellake.com/wp-content/uploads/2015/01/tile-stay-seasonalrv-240x200.jpg'},
+  {name:'Hill Country', image:'https://igx.4sqi.net/img/general/200x200/22593755_TJ6UIcYObQvxCuNAezV6283Fs0581TlzUcJMLxznxP8.jpg'},
+  {name:'River Torridon', image:'https://s3-us-west-2.amazonaws.com/cdn.glaciermt.io/partners/536/536-b14d35-200.jpg'},
+  {name:'Pace Bend', image:'http://blueridgeheritage.com/sites/default/files/images/200_RockyBluff.JPG'},
+  {name:'Hill Country', image:'https://igx.4sqi.net/img/general/200x200/22593755_TJ6UIcYObQvxCuNAezV6283Fs0581TlzUcJMLxznxP8.jpg'},
+  {name:'River Torridon', image:'https://s3-us-west-2.amazonaws.com/cdn.glaciermt.io/partners/536/536-b14d35-200.jpg'},
+  {name:'Pace Bend', image:'http://blueridgeheritage.com/sites/default/files/images/200_RockyBluff.JPG'},
+  {name:'Hill Country', image:'https://igx.4sqi.net/img/general/200x200/22593755_TJ6UIcYObQvxCuNAezV6283Fs0581TlzUcJMLxznxP8.jpg'},
+  {name:'River Torridon', image:'https://s3-us-west-2.amazonaws.com/cdn.glaciermt.io/partners/536/536-b14d35-200.jpg'}
 ];
 
 app.get('/', (req,res) => {
