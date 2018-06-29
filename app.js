@@ -11,50 +11,34 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const travelClubSchema = new mongoose.Schema({
   name: String,
-  image: String
+  image: String,
+  description: String
 });
 
 const TravelClub = mongoose.model('TravelClub', travelClubSchema);
-
-// TravelClub.create({
-//   name:'Hill Country', 
-//   image:'https://igx.4sqi.net/img/general/200x200/22593755_TJ6UIcYObQvxCuNAezV6283Fs0581TlzUcJMLxznxP8.jpg'
-// }, (err, travelplace) => {
-//   if(err) console.log(err);
-//   else console.log(travelplace);
-// });
-
-// const travelPlaces = [
-//   {name:'Pace Bend', image:'https://mabellake.com/wp-content/uploads/2015/01/tile-stay-seasonalrv-240x200.jpg'},
-//   {name:'Hill Country', image:'https://igx.4sqi.net/img/general/200x200/22593755_TJ6UIcYObQvxCuNAezV6283Fs0581TlzUcJMLxznxP8.jpg'},
-//   {name:'River Torridon', image:'https://s3-us-west-2.amazonaws.com/cdn.glaciermt.io/partners/536/536-b14d35-200.jpg'},
-//   {name:'Pace Bend', image:'http://blueridgeheritage.com/sites/default/files/images/200_RockyBluff.JPG'},
-//   {name:'Hill Country', image:'https://igx.4sqi.net/img/general/200x200/22593755_TJ6UIcYObQvxCuNAezV6283Fs0581TlzUcJMLxznxP8.jpg'},
-//   {name:'River Torridon', image:'https://s3-us-west-2.amazonaws.com/cdn.glaciermt.io/partners/536/536-b14d35-200.jpg'},
-//   {name:'Pace Bend', image:'http://blueridgeheritage.com/sites/default/files/images/200_RockyBluff.JPG'},
-//   {name:'Hill Country', image:'https://igx.4sqi.net/img/general/200x200/22593755_TJ6UIcYObQvxCuNAezV6283Fs0581TlzUcJMLxznxP8.jpg'},
-//   {name:'River Torridon', image:'https://s3-us-west-2.amazonaws.com/cdn.glaciermt.io/partners/536/536-b14d35-200.jpg'}
-// ];
 
 app.get('/', (req,res) => {
   res.render('landing');
 });
 
+// INDEX route - show all travel places
 app.get('/travelplaces', (req,res) => {
   // get all travelplaces from db
   TravelClub.find({}, (err, travelplaces) => {
     if(err) console.log(err);
     else {
-      res.render('travelplaces', { travelplaces });
+      res.render('index', { travelplaces });
     }
   });
 });
 
+// CREATE route = add new places to DB
 app.post('/travelplaces', (req,res) => {
   // get the data from form and add it into travelPlaces
   const { name } = req.body;
   const { image } = req.body;
-  const newTravelPlace = { name, image }; //add this object into travelplaces array
+  const { description } = req.body;
+  const newTravelPlace = { name, image, description }; //add this object into travelplaces array
   // create a new place and save to DB
   TravelClub.create(newTravelPlace, (err, newPlace) => {
     if(err) console.log(err);
@@ -65,8 +49,22 @@ app.post('/travelplaces', (req,res) => {
   });
 });
 
+// NEW route - show form to create new travel place
 app.get('/travelplaces/new', (req,res) => {
+  // find the place with provided id
+  // render the template with that travel place
   res.render('new'); //new.ejs is the form file
+});
+
+// SHOW route - shows more info about one travel place
+app.get('/travelplaces/:id', (req,res) => {
+  const { id } = req.params;
+  TravelClub.findById(id, (err, foundTravelPlace) => {
+    if(err) console.log(err);
+    else {
+      res.render('show', { travelPlace: foundTravelPlace });
+    }
+  });
 });
 
 app.listen(process.env.PORT || 3000, () => console.log('Travel Club server has started...'));
