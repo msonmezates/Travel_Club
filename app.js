@@ -1,21 +1,14 @@
 const express     = require('express'),
       app         = express(),
       bodyParser  = require('body-parser'),
-      mongoose    = require('mongoose');
+      mongoose    = require('mongoose'),
+      TravelClub  = require('./models/travelclub');
 
 
 mongoose.connect('mongodb://localhost/travel_club');
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
-
-const travelClubSchema = new mongoose.Schema({
-  name: String,
-  image: String,
-  description: String
-});
-
-const TravelClub = mongoose.model('TravelClub', travelClubSchema);
 
 app.get('/', (req,res) => {
   res.render('landing');
