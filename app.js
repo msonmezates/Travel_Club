@@ -22,7 +22,7 @@ app.get('/travelplaces', (req,res) => {
   TravelClub.find({}, (err, travelplaces) => {
     if(err) console.log(err);
     else {
-      res.render('index', { travelplaces });
+      res.render('travelPlaces/index', { travelplaces });
     }
   });
 });
@@ -48,7 +48,7 @@ app.post('/travelplaces', (req,res) => {
 app.get('/travelplaces/new', (req,res) => {
   // find the place with provided id
   // render the template with that travel place
-  res.render('new'); //new.ejs is the form file
+  res.render('travelPlaces/new'); //new.ejs is the form file
 });
 
 // SHOW route - shows more info about one travel place
@@ -58,7 +58,22 @@ app.get('/travelplaces/:id', (req,res) => {
     if(err) console.log(err);                                                     // data based on id
     else {
       console.log(foundTravelPlace);
-      res.render('show', { travelPlace: foundTravelPlace });
+      res.render('travelPlaces/show', { travelPlace: foundTravelPlace });
+    }
+  });
+});
+
+// ===============================
+// COMMENTS ROUTES
+// ===============================
+
+app.get('/travelplaces/:id/comments/new', (req, res) => {
+  // find the travel place by id
+  const {id } = req.params;
+  TravelClub.findById(id, (err, travelPlace) => {
+    if(err) console.log(err);
+    else {
+      res.render('comments/new', { travelPlace });
     }
   });
 });
