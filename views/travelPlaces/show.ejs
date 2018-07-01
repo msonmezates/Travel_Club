@@ -6,6 +6,8 @@
 
 <p><%= travelPlace.description %></p>
 
+<a class="btn btn-success" href="/travelplaces/<%= travelPlace._id %>/comments/new">Add a comment</a>
+
 <% travelPlace.comments.map(comment => { %>
   <p>
     <strong><%= comment.author %></strong> - <%= comment.text %>

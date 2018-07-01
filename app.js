@@ -3,6 +3,7 @@ const express      = require('express'),
       bodyParser   = require('body-parser'),
       mongoose     = require('mongoose'),
       TravelClub   = require('./models/travelclub'),
+      Comment      = require('./models/comment'),
       seedDataBase = require('./seedDatabase');
 
 
@@ -30,9 +31,7 @@ app.get('/travelplaces', (req,res) => {
 // CREATE route = add new places to DB
 app.post('/travelplaces', (req,res) => {
   // get the data from form and add it into travelPlaces
-  const { name } = req.body;
-  const { image } = req.body;
-  const { description } = req.body;
+  const { name, image, description } = req.body;
   const newTravelPlace = { name, image, description }; //add this object into travelplaces array
   // create a new place and save to DB
   TravelClub.create(newTravelPlace, (err, newPlace) => {
@@ -74,6 +73,23 @@ app.get('/travelplaces/:id/comments/new', (req, res) => {
     if(err) console.log(err);
     else {
       res.render('comments/new', { travelPlace });
+    }
+  });
+});
+
+app.post('/travelplaces/:id/comments', (req, res) => {
+  const { id } = req.params; //get the id from url
+  TravelClub.findById(id, (err, travelPlace) => {
+    if(err) console.log(err);
+    else {
+      Comment.create(req.body.comment, (err, comment) => {
+        if(err) console.log(err);
+        else {
+          travelPlace.comments.push(comment);
+          travelPlace.save();
+          res.redirect(`/travelplaces/${travelPlace._id}`);
+        }
+      });
     }
   });
 });
