@@ -6,4 +6,10 @@
 
 <p><%= travelPlace.description %></p>
 
+<% travelPlace.comments.map(comment => { %>
+  <p>
+    <strong><%= comment.author %></strong> - <%= comment.text %>
+  </p>
+<% }); %>
+
 <% include partials/footer %>
