@@ -1,17 +1,49 @@
 <% include ../partials/header %>
 
-<h2><%= travelPlace.name %></h2>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <p class="lead">TravelClub</p>
+      <ul class="list-group">
+        <li class="list-group-item active">Example 1</li>
+        <li class="list-group-item">Example 2</li>
+        <li class="list-group-item">Example 3</li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <div class="card">
+        <img class="card-img-top" src="<%= travelPlace.image %>"/>
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <h3 class="card-title"><a href="#"><%= travelPlace.name %></a></h3>
+            <h4 class="card-title ml-auto">$60.00/night</h4>
+          </div>
+          <p class="card-text"><%= travelPlace.description %></p>
+        </div>
+      </div>
 
-<img src="<%= travelPlace.image %>"/>
-
-<p><%= travelPlace.description %></p>
-
-<a class="btn btn-success" href="/travelplaces/<%= travelPlace._id %>/comments/new">Add a comment</a>
-
-<% travelPlace.comments.map(comment => { %>
-  <p>
-    <strong><%= comment.author %></strong> - <%= comment.text %>
-  </p>
-<% }); %>
+      <div class="card mt-3">
+        <div class="card-body">
+          <div class="card-text d-flex pb-2">
+            <a class="btn btn-success ml-auto" href="/travelplaces/<%= travelPlace._id %>/comments/new">Add a comment</a>
+          </div>
+          <% travelPlace.comments.map(comment => { %>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="d-flex">
+                    <strong><%= comment.author %></strong>
+                    <span class="ml-auto">25 days ago</span>
+                </div>
+                <p>
+                  <%= comment.text %>
+                </p>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <% include ../partials/footer %>
