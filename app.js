@@ -13,6 +13,8 @@ mongoose.connect('mongodb://localhost/travel_club');
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(express.static(__dirname + '/public')); //this middleware is to use css files
+
 app.get('/', (req,res) => {
   res.render('landing');
 });
