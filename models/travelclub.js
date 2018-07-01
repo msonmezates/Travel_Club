@@ -4,7 +4,13 @@ const mongoose = require('mongoose');
 const travelClubSchema = new mongoose.Schema({
   name: String,
   image: String,
-  description: String
+  description: String,
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Comment'
+    }
+  ]
 });
 
 const TravelClub = mongoose.model('TravelClub', travelClubSchema);

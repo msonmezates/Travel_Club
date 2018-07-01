@@ -1,10 +1,12 @@
-const express     = require('express'),
-      app         = express(),
-      bodyParser  = require('body-parser'),
-      mongoose    = require('mongoose'),
-      TravelClub  = require('./models/travelclub');
+const express      = require('express'),
+      app          = express(),
+      bodyParser   = require('body-parser'),
+      mongoose     = require('mongoose'),
+      TravelClub   = require('./models/travelclub'),
+      seedDataBase = require('./seedDatabase');
 
 
+seedDataBase(); // Always seed database before running the code
 mongoose.connect('mongodb://localhost/travel_club');
 
 app.set('view engine', 'ejs');
@@ -52,9 +54,10 @@ app.get('/travelplaces/new', (req,res) => {
 // SHOW route - shows more info about one travel place
 app.get('/travelplaces/:id', (req,res) => {
   const { id } = req.params;
-  TravelClub.findById(id, (err, foundTravelPlace) => {
-    if(err) console.log(err);
+  TravelClub.findById(id).populate('comments').exec((err, foundTravelPlace) => {  // populate('comments').exec(function(){}) enables to show the
+    if(err) console.log(err);                                                     // data based on id
     else {
+      console.log(foundTravelPlace);
       res.render('show', { travelPlace: foundTravelPlace });
     }
   });
