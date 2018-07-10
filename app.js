@@ -149,7 +149,7 @@ app.post('/login', passport.authenticate('local', {
 // Logout Route
 app.get('/logout', (req, res) => {
   req.logout();
-  res.redirect('/');
+  res.redirect('/travelplaces');
 });
 
 app.listen(process.env.PORT || 3000, () => console.log('Travel Club server has started...'));
