@@ -13,7 +13,10 @@ const express      = require('express'),
 seedDataBase(); // Always seed database before running the code
 mongoose.connect('mongodb://localhost/travel_club');
 
-// PASSPORT Configuration
+// ===============================
+// Passport Configuration
+// ===============================
+
 // Create middleware to handle unathorized access
 const isLoggedIn = (req, res, next) => {
   if(req.isAuthenticated()) return next(); // if authorized, move to next step
@@ -30,6 +33,11 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+// We need to create our middleware to enable currentuser
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user; //make current user available when applicable
+  next(); //move to next step
+});
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -39,6 +47,10 @@ app.use(express.static(__dirname + '/public')); //this middleware is to use css 
 app.get('/', (req,res) => {
   res.render('landing');
 });
+
+// ===============================
+// RESTful ROUTES
+// ===============================
 
 // INDEX route - show all travel places
 app.get('/travelplaces', (req,res) => {
