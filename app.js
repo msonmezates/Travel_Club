@@ -13,6 +13,18 @@ const express      = require('express'),
 seedDataBase(); // Always seed database before running the code
 mongoose.connect('mongodb://localhost/travel_club');
 
+// PASSPORT Configuration
+app.use(require('express-session')({
+  secret: 'This is the secret part',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -97,6 +109,29 @@ app.post('/travelplaces/:id/comments', (req, res) => {
       });
     }
   });
+});
+
+// ===============================
+// AUTH ROUTES
+// ===============================
+
+// show register form
+app.get('/register', (req,res) => {
+  res.render('register');
+});
+// Handle sign up logic
+app.post('/register', (req, res) => {
+  const { username, password } = req.body;
+  const newUser = new User({ username });
+  User.register(newUser, password, (err, user) => {
+    if(err) {
+      console.log(err);
+      return res.render('register');
+    } 
+    passport.authenticate('local')(req, res, () => { // we are using local strategy
+      res.redirect('/travelplaces');
+    });
+  })
 });
 
 app.listen(process.env.PORT || 3000, () => console.log('Travel Club server has started...'));
