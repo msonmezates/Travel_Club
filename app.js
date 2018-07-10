@@ -14,6 +14,12 @@ seedDataBase(); // Always seed database before running the code
 mongoose.connect('mongodb://localhost/travel_club');
 
 // PASSPORT Configuration
+// Create middleware to handle unathorized access
+const isLoggedIn = (req, res, next) => {
+  if(req.isAuthenticated()) return next(); // if authorized, move to next step
+  res.redirect('/login'); // if not authorized, redirect to login
+}
+
 app.use(require('express-session')({
   secret: 'This is the secret part',
   resave: false,
@@ -83,7 +89,7 @@ app.get('/travelplaces/:id', (req,res) => {
 // COMMENTS ROUTES
 // ===============================
 
-app.get('/travelplaces/:id/comments/new', (req, res) => {
+app.get('/travelplaces/:id/comments/new', isLoggedIn, (req, res) => { //isLogged middleware enables/disables access to create a comment
   // find the travel place by id
   const {id } = req.params;
   TravelClub.findById(id, (err, travelPlace) => {
@@ -94,7 +100,7 @@ app.get('/travelplaces/:id/comments/new', (req, res) => {
   });
 });
 
-app.post('/travelplaces/:id/comments', (req, res) => {
+app.post('/travelplaces/:id/comments', isLoggedIn, (req, res) => {
   const { id } = req.params; //get the id from url
   TravelClub.findById(id, (err, travelPlace) => {
     if(err) console.log(err);
