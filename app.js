@@ -134,4 +134,17 @@ app.post('/register', (req, res) => {
   })
 });
 
+// Show login form
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+// Login Logic
+// middleware
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/travelplaces',
+  failureRedirect: '/login'
+}), (req, res) => {
+});
+
+
 app.listen(process.env.PORT || 3000, () => console.log('Travel Club server has started...'));
