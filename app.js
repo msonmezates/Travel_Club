@@ -2,9 +2,12 @@ const express      = require('express'),
       app          = express(),
       bodyParser   = require('body-parser'),
       mongoose     = require('mongoose'),
+      User         = require('./models/User');
       TravelClub   = require('./models/travelclub'),
       Comment      = require('./models/comment'),
-      seedDataBase = require('./seedDatabase');
+      seedDataBase = require('./seedDatabase'),
+      passport     = require('passport'),
+      LocalStrategy= require('passport-local');
 
 
 seedDataBase(); // Always seed database before running the code
