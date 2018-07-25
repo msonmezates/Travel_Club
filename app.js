@@ -13,7 +13,7 @@ const commentRoutes       = require('./routes/comments'),
       indexRoutes         = require('./routes/index');
 
 
-seedDataBase(); // Always seed database before running the code
+// seedDataBase(); // Always seed database before running the code
 mongoose.connect('mongodb://localhost/travel_club');
 
 app.set('view engine', 'ejs');
@@ -41,7 +41,7 @@ app.use((req, res, next) => {
   next(); //move to next step
 });
 
-// Use RESTful Routes with prefix
+// Use RESTful Routes with prefix values
 app.use("/", indexRoutes);
 app.use("/travelplaces", travelPlaceRoutes);
 app.use("/travelplaces/:id/comments", commentRoutes);

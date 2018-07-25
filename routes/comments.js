@@ -30,8 +30,15 @@ router.post('/', isLoggedIn, (req, res) => {
       Comment.create(req.body.comment, (err, comment) => {
         if(err) console.log(err);
         else {
+          // add username and id to comment
+          comment.author.id = req.user._id;
+          comment.author.username = req.user.username;
+          // save comment
+          comment.save();
+
           travelPlace.comments.push(comment);
           travelPlace.save();
+          console.log(comment)
           res.redirect(`/travelplaces/${travelPlace._id}`);
         }
       });
