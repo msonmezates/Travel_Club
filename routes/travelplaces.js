@@ -83,5 +83,17 @@ router.put('/:id', (req, res) => {
     }
   });
 });
+// DESTROY route - deletes one travel place
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  TravelClub.findByIdAndRemove(id, (err) => {
+    if(err) {
+      res.redirect('/travelplaces');
+      console.log(err);
+    } else {
+      res.redirect('/travelplaces');
+    }
+  });
+});
 
 module.exports = router;

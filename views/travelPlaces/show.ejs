@@ -23,6 +23,10 @@
             <em>Submitted By <%= travelPlace.author.username %></em>
           </p>
           <a class="btn btn-warning" href="/travelplaces/<%= travelPlace._id %>/edit">Edit</a>
+          <!-- create a form to delete the travel travelPlace -->
+          <form id="delete-form" action="/travelplaces/<%= travelPlace._id %>?_method=DELETE" method="POST">
+            <button class="btn btn-danger">Delete</button>
+          </form>
         </div>
       </div>
 
