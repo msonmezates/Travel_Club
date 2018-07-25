@@ -7,6 +7,7 @@ const express      = require('express'),
       passport     = require('passport'),
       LocalStrategy= require('passport-local');
 
+// requiring all routes
 const commentRoutes       = require('./routes/comments'),
       travelPlaceRoutes   = require('./routes/travelplaces'),
       indexRoutes         = require('./routes/index');
@@ -40,12 +41,10 @@ app.use((req, res, next) => {
   next(); //move to next step
 });
 
-// ===============================
-// RESTful ROUTES
-// ===============================
+// Use RESTful Routes with prefix
+app.use("/", indexRoutes);
+app.use("/travelplaces", travelPlaceRoutes);
+app.use("/travelplaces/:id/comments", commentRoutes);
 
-app.use(indexRoutes);
-app.use(travelPlaceRoutes);
-app.use(commentRoutes);
-
+// Set server
 app.listen(process.env.PORT || 3000, () => console.log('Travel Club server has started...'));

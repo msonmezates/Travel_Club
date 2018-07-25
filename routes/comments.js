@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router({ mergeParams: true }); //mergeParams enables us to use req.params 
 const TravelClub = require('../models/travelclub');
 const Comment = require('../models/comment');
 
@@ -9,11 +9,8 @@ const isLoggedIn = (req, res, next) => {
   res.redirect('/login'); // if not authorized, redirect to login
 }
 
-// ===============================
-// COMMENTS ROUTES
-// ===============================
-
-router.get('/travelplaces/:id/comments/new', isLoggedIn, (req, res) => { //isLogged middleware enables/disables access to create a comment
+// New Comments
+router.get('/new', isLoggedIn, (req, res) => { //isLogged middleware enables/disables access to create a comment
   // find the travel place by id
   const {id } = req.params;
   TravelClub.findById(id, (err, travelPlace) => {
@@ -24,7 +21,8 @@ router.get('/travelplaces/:id/comments/new', isLoggedIn, (req, res) => { //isLog
   });
 });
 
-router.post('/travelplaces/:id/comments', isLoggedIn, (req, res) => {
+// Create Comments
+router.post('/', isLoggedIn, (req, res) => {
   const { id } = req.params; //get the id from url
   TravelClub.findById(id, (err, travelPlace) => {
     if(err) console.log(err);

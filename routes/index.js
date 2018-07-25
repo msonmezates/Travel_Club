@@ -3,18 +3,16 @@ const router = express.Router();
 const passport = require('passport');
 const User = require('../models/user');
 
+// Root Route
 router.get('/', (req,res) => {
   res.render('landing');
 });
-
-// ===============================
-// AUTH ROUTES
-// ===============================
 
 // show register form
 router.get('/register', (req,res) => {
   res.render('register');
 });
+
 // Handle sign up logic
 router.post('/register', (req, res) => {
   const { username, password } = req.body;
@@ -34,6 +32,7 @@ router.post('/register', (req, res) => {
 router.get('/login', (req, res) => {
   res.render('login');
 });
+
 // Login Logic
 // middleware
 router.post('/login', passport.authenticate('local', {
