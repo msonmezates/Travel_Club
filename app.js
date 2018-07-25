@@ -5,7 +5,8 @@ const express      = require('express'),
       User         = require('./models/user'),
       seedDataBase = require('./seedDatabase'),
       passport     = require('passport'),
-      LocalStrategy= require('passport-local');
+      LocalStrategy= require('passport-local'),
+      methodOverride = require('method-override'); //to use HTTP verbs such as PUT or DELETE methods where the client doesn't support it
 
 // requiring all routes
 const commentRoutes       = require('./routes/comments'),
@@ -20,6 +21,8 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname + '/public')); //this middleware is to use css files
+
+app.use(methodOverride('_method')); 
 
 // ===============================
 // Passport Configuration

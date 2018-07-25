@@ -19,7 +19,7 @@ router.get('/', (req,res) => {
   });
 });
 
-// CREATE route = add new places to DB
+// CREATE route - add new places to DB
 router.post('/', isLoggedIn, (req,res) => {
   // get the data from form and add it into travelPlaces
   const { name, image, description } = req.body;
@@ -39,14 +39,14 @@ router.post('/', isLoggedIn, (req,res) => {
   });
 });
 
-// NEW route - show form to create new travel place
+// NEW route - show form to create new travel places
 router.get('/new', isLoggedIn, (req,res) => {
   // find the place with provided id
   // render the template with that travel place
   res.render('travelPlaces/new'); //new.ejs is the form file
 });
 
-// SHOW route - shows more info about one travel place
+// SHOW route - shows more info about particular travel place
 router.get('/:id', (req,res) => {
   const { id } = req.params;
   TravelClub.findById(id).populate('comments').exec((err, foundTravelPlace) => {  // populate('comments').exec(function(){}) enables us to show 
@@ -54,6 +54,32 @@ router.get('/:id', (req,res) => {
     else {
       console.log(foundTravelPlace);
       res.render('travelPlaces/show', { travelPlace: foundTravelPlace });
+    }
+  });
+});
+
+// EDIT route - enables user to edit the travel place
+router.get('/:id/edit', (req,res) => {
+  const { id } = req.params;
+  TravelClub.findById(id, (err, foundTravelPlace) => {
+    if(err) {
+      res.redirect('/travelplaces');
+      console.log(err);
+    } else {
+      res.render('travelPlaces/edit', { travelPlace: foundTravelPlace });
+    }
+  });
+});
+// UPDATE route - updates the form after editing a particular travel place
+router.put('/:id', (req, res) => {
+  const { id } = req.params; // data comes from url
+  const { travelPlace } = req.body; // data comes from form which is an object
+  TravelClub.findByIdAndUpdate(id, travelPlace, (err, updatedTravelPlace) => {
+    if(err) {
+      res.redirect('/travelplaces');
+      console.log(err);
+    } else {
+      res.redirect(`/travelplaces/${id}`); // redirect to the same travel place page
     }
   });
 });
