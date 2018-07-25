@@ -61,14 +61,26 @@ router.get('/:id', (req,res) => {
 // EDIT route - enables user to edit the travel place
 router.get('/:id/edit', (req,res) => {
   const { id } = req.params;
-  TravelClub.findById(id, (err, foundTravelPlace) => {
-    if(err) {
-      res.redirect('/travelplaces');
-      console.log(err);
-    } else {
-      res.render('travelPlaces/edit', { travelPlace: foundTravelPlace });
-    }
-  });
+  // if user is logged in
+  if (req.isAuthenticated()) {
+    TravelClub.findById(id, (err, foundTravelPlace) => {
+      if(err) {
+        res.redirect('/travelplaces');
+        console.log(err);
+      } else {
+        // does user own the travel place?
+        if (foundTravelPlace.author.id.equals(req.user._id)) { // we need to use mongoose' equals method bc author.id is an object
+                                                               // and req.user._id is a string even though they look identical
+          res.render('travelPlaces/edit', { travelPlace: foundTravelPlace });
+        } else { // otherwise redirect
+          res.send("You don't have the permission to edit the page!");
+        }
+      }
+    });
+  } else { // user is not logged in so redirect
+    console.log('You need to be logged in to edit page');
+    res.send('You need to be logged in to edit page');
+  }
 });
 // UPDATE route - updates the form after editing a particular travel place
 router.put('/:id', (req, res) => {

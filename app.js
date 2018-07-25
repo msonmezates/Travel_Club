@@ -26,7 +26,6 @@ app.use(methodOverride('_method'));
 
 // ===============================
 // Passport Configuration
-// ===============================
 
 app.use(require('express-session')({
   secret: 'This is the secret part',
@@ -43,6 +42,7 @@ app.use((req, res, next) => {
   res.locals.currentUser = req.user; //make current user available when applicable
   next(); //move to next step
 });
+// ===============================
 
 // Use RESTful Routes with prefix values
 app.use("/", indexRoutes);
