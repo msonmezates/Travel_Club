@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 const TravelClub = require('../models/travelclub');
 
+// Create middleware to handle unathorized access
+const isLoggedIn = (req, res, next) => {
+  if(req.isAuthenticated()) return next(); // if authorized, move to next step
+  res.redirect('/login'); // if not authorized, redirect to login
+}
+
 // INDEX route - show all travel places
 router.get('/', (req,res) => {
   // get all travelplaces from db
@@ -14,7 +20,7 @@ router.get('/', (req,res) => {
 });
 
 // CREATE route = add new places to DB
-router.post('/', (req,res) => {
+router.post('/', isLoggedIn, (req,res) => {
   // get the data from form and add it into travelPlaces
   const { name, image, description } = req.body;
   const newTravelPlace = { name, image, description }; //add this object into travelplaces array
@@ -29,7 +35,7 @@ router.post('/', (req,res) => {
 });
 
 // NEW route - show form to create new travel place
-router.get('/new', (req,res) => {
+router.get('/new', isLoggedIn, (req,res) => {
   // find the place with provided id
   // render the template with that travel place
   res.render('travelPlaces/new'); //new.ejs is the form file
