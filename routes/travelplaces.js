@@ -8,6 +8,29 @@ const isLoggedIn = (req, res, next) => {
   res.redirect('/login'); // if not authorized, redirect to login
 }
 
+// middleware to check authorization
+const checkTravelPlaceOwnership = (req, res, next) => {
+  const { id } = req.params;
+  // if user is logged in
+  if (req.isAuthenticated()) {
+    TravelClub.findById(id, (err, foundTravelPlace) => {
+      if(err) {
+        res.redirect('back');  // using back takes user back to the original page
+        console.log(err);
+      } else {
+        // does user own the travel place?
+        if (foundTravelPlace.author.id.equals(req.user._id)) {  // we need to use mongoose' equals method bc author.id is an object
+          next();                                               // and req.user._id is a string even though they look identical
+        } else { // otherwise redirect
+          res.redirect('back');
+        }
+      }
+    });
+  } else { // user is not logged in so redirect back
+    res.redirect('back'); 
+  }
+}
+
 // INDEX route - show all travel places
 router.get('/', (req,res) => {
   // get all travelplaces from db
@@ -59,31 +82,14 @@ router.get('/:id', (req,res) => {
 });
 
 // EDIT route - enables user to edit the travel place
-router.get('/:id/edit', (req,res) => {
+router.get('/:id/edit', checkTravelPlaceOwnership, (req,res) => {
   const { id } = req.params;
-  // if user is logged in
-  if (req.isAuthenticated()) {
-    TravelClub.findById(id, (err, foundTravelPlace) => {
-      if(err) {
-        res.redirect('/travelplaces');
-        console.log(err);
-      } else {
-        // does user own the travel place?
-        if (foundTravelPlace.author.id.equals(req.user._id)) { // we need to use mongoose' equals method bc author.id is an object
-                                                               // and req.user._id is a string even though they look identical
-          res.render('travelPlaces/edit', { travelPlace: foundTravelPlace });
-        } else { // otherwise redirect
-          res.send("You don't have the permission to edit the page!");
-        }
-      }
-    });
-  } else { // user is not logged in so redirect
-    console.log('You need to be logged in to edit page');
-    res.send('You need to be logged in to edit page');
-  }
+  TravelClub.findById(id, (err, foundTravelPlace) => {
+    res.render('travelplaces/edit', {travelPlace: foundTravelPlace});
+  });
 });
 // UPDATE route - updates the form after editing a particular travel place
-router.put('/:id', (req, res) => {
+router.put('/:id', checkTravelPlaceOwnership, (req, res) => {
   const { id } = req.params; // data comes from url
   const { travelPlace } = req.body; // data comes from form which is an object
   TravelClub.findByIdAndUpdate(id, travelPlace, (err, updatedTravelPlace) => {
@@ -96,7 +102,7 @@ router.put('/:id', (req, res) => {
   });
 });
 // DESTROY route - deletes one travel place
-router.delete('/:id', (req, res) => {
+router.delete('/:id', checkTravelPlaceOwnership, (req, res) => {
   const { id } = req.params;
   TravelClub.findByIdAndRemove(id, (err) => {
     if(err) {
