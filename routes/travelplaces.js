@@ -23,12 +23,17 @@ router.get('/', (req,res) => {
 router.post('/', isLoggedIn, (req,res) => {
   // get the data from form and add it into travelPlaces
   const { name, image, description } = req.body;
-  const newTravelPlace = { name, image, description }; //add this object into travelplaces array
+  const author = {
+    id: req.user._id,
+    username: req.user.username
+  };
+  const newTravelPlace = { name, image, description, author }; //add this object into travelplaces array
   // create a new place and save to DB
   TravelClub.create(newTravelPlace, (err, newPlace) => {
     if(err) console.log(err);
     else {
       // redirect back to travel places page
+      console.log(newPlace)
       res.redirect('/travelplaces');
     }
   });
@@ -44,8 +49,8 @@ router.get('/new', isLoggedIn, (req,res) => {
 // SHOW route - shows more info about one travel place
 router.get('/:id', (req,res) => {
   const { id } = req.params;
-  TravelClub.findById(id).populate('comments').exec((err, foundTravelPlace) => {  // populate('comments').exec(function(){}) enables to show the
-    if(err) console.log(err);                                                     // data based on id
+  TravelClub.findById(id).populate('comments').exec((err, foundTravelPlace) => {  // populate('comments').exec(function(){}) enables us to show 
+    if(err) console.log(err);                                                     // the data based on id
     else {
       console.log(foundTravelPlace);
       res.render('travelPlaces/show', { travelPlace: foundTravelPlace });
