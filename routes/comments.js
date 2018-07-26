@@ -46,4 +46,9 @@ router.post('/', isLoggedIn, (req, res) => {
   });
 });
 
+// Edit Comments
+router.get('/:commnet_id/edit', (req, res) => {
+  res.send('edit comment');
+});
+
 module.exports = router;
