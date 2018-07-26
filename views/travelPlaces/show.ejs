@@ -22,11 +22,14 @@
           <p class="card-text">
             <em>Submitted By <%= travelPlace.author.username %></em>
           </p>
-          <a class="btn btn-warning" href="/travelplaces/<%= travelPlace._id %>/edit">Edit</a>
-          <!-- create a form to delete the travel travelPlace -->
-          <form id="delete-form" action="/travelplaces/<%= travelPlace._id %>?_method=DELETE" method="POST">
-            <button class="btn btn-danger">Delete</button>
-          </form>
+          <!-- Don't display delete button if user isn't logged in -->
+          <% if(currentUser && travelPlace.author.id.equals(currentUser._id)) { %>
+            <a class="btn btn-sm btn-warning" href="/travelplaces/<%= travelPlace._id %>/edit">Edit</a>
+            <!-- create a form to delete the travel travelPlace -->
+            <form id="delete-form" action="/travelplaces/<%= travelPlace._id %>?_method=DELETE" method="POST">
+              <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          <% } %>
         </div>
       </div>
 
