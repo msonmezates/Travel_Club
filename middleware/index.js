@@ -49,6 +49,7 @@ const middlewareObj = {
   // handle unathorized access
   isLoggedIn: (req, res, next) => {
     if(req.isAuthenticated()) return next(); // if authorized, move to next step
+    req.flash('error', 'Please login first');
     res.redirect('/login'); // if not authorized, redirect to login
   }
 };

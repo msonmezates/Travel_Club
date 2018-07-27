@@ -3,6 +3,7 @@ const express      = require('express'),
       bodyParser   = require('body-parser'),
       mongoose     = require('mongoose'),
       User         = require('./models/user'),
+      flash        = require('connect-flash'), // to display the stored messages
       seedDataBase = require('./seedDatabase'),
       passport     = require('passport'),
       LocalStrategy= require('passport-local'),
@@ -23,6 +24,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public')); //this middleware is to use css files
 
 app.use(methodOverride('_method')); 
+
+app.use(flash());
 
 // ===============================
 // Passport Configuration
