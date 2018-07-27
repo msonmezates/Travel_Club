@@ -73,4 +73,17 @@ router.put('/:comment_id', (req, res) => {
   });
 });
 
+// Destroy Route - Delete Comments
+router.delete('/:comment_id', (req, res) => {
+  const { comment_id } = req.params;
+  Comment.findByIdAndRemove(comment_id, (err) => {
+    if(err) {
+      res.redirect('back');
+      console.log(err);
+    } else {
+      res.redirect('/travelplaces');
+    }
+  });
+});
+
 module.exports = router;
