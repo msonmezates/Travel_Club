@@ -47,8 +47,18 @@ router.post('/', isLoggedIn, (req, res) => {
 });
 
 // Edit Comments
-router.get('/:commnet_id/edit', (req, res) => {
-  res.send('edit comment');
+router.get('/:comment_id/edit', (req, res) => {
+  const { id, comment_id } = req.params;
+  Comment.findById(comment_id, (err, foundComment) => {
+    if(err) {
+      res.redirect('back');
+      console.log(err);
+    } else {
+      res.render('comments/edit', { travelPlace_id: id, comment: foundComment });
+    }
+  });
 });
+
+
 
 module.exports = router;
