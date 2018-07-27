@@ -30,7 +30,7 @@ router.post('/register', (req, res) => {
 
 // Show login form
 router.get('/login', (req, res) => {
-  res.render('login', { message: req.flash('error') });
+  res.render('login');
 });
 
 // Login Logic
@@ -44,6 +44,7 @@ router.post('/login', passport.authenticate('local', {
 // Logout Route
 router.get('/logout', (req, res) => {
   req.logout();
+  req.flash('success', 'Logged out!')
   res.redirect('/travelplaces');
 });
 

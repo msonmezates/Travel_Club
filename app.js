@@ -43,6 +43,8 @@ passport.deserializeUser(User.deserializeUser());
 // We need to create our middleware to enable currentuser
 app.use((req, res, next) => {
   res.locals.currentUser = req.user; //make current user available when applicable
+  res.locals.error = req.flash('error'); //make flash message available when there is an error
+  res.locals.success = req.flash('success'); //make flash message available when it's successful
   next(); //move to next step
 });
 // ===============================
