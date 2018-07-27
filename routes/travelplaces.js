@@ -1,35 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const TravelClub = require('../models/travelclub');
-
-// Create middleware to handle unathorized access
-const isLoggedIn = (req, res, next) => {
-  if(req.isAuthenticated()) return next(); // if authorized, move to next step
-  res.redirect('/login'); // if not authorized, redirect to login
-}
-
-// middleware to check authorization
-const checkTravelPlaceOwnership = (req, res, next) => {
-  const { id } = req.params;
-  // if user is logged in
-  if (req.isAuthenticated()) {
-    TravelClub.findById(id, (err, foundTravelPlace) => {
-      if(err) {
-        res.redirect('back');  // using back takes user back to the original page
-        console.log(err);
-      } else {
-        // does user own the travel place?
-        if (foundTravelPlace.author.id.equals(req.user._id)) {  // we need to use mongoose' equals method bc author.id is an object
-          next();                                               // and req.user._id is a string even though they look identical
-        } else { // otherwise redirect
-          res.redirect('back');
-        }
-      }
-    });
-  } else { // user is not logged in so redirect back
-    res.redirect('back'); 
-  }
-}
+const middleware = require('../middleware');
 
 // INDEX route - show all travel places
 router.get('/', (req,res) => {
@@ -43,7 +15,7 @@ router.get('/', (req,res) => {
 });
 
 // CREATE route - add new places to DB
-router.post('/', isLoggedIn, (req,res) => {
+router.post('/', middleware.isLoggedIn, (req,res) => {
   // get the data from form and add it into travelPlaces
   const { name, image, description } = req.body;
   const author = {
@@ -63,7 +35,7 @@ router.post('/', isLoggedIn, (req,res) => {
 });
 
 // NEW route - show form to create new travel places
-router.get('/new', isLoggedIn, (req,res) => {
+router.get('/new', middleware.isLoggedIn, (req,res) => {
   // find the place with provided id
   // render the template with that travel place
   res.render('travelPlaces/new'); //new.ejs is the form file
@@ -82,14 +54,14 @@ router.get('/:id', (req,res) => {
 });
 
 // EDIT route - enables user to edit the travel place
-router.get('/:id/edit', checkTravelPlaceOwnership, (req,res) => {
+router.get('/:id/edit', middleware.checkTravelPlaceOwnership, (req,res) => {
   const { id } = req.params;
   TravelClub.findById(id, (err, foundTravelPlace) => {
     res.render('travelplaces/edit', {travelPlace: foundTravelPlace});
   });
 });
 // UPDATE route - updates the form after editing a particular travel place
-router.put('/:id', checkTravelPlaceOwnership, (req, res) => {
+router.put('/:id', middleware.checkTravelPlaceOwnership, (req, res) => {
   const { id } = req.params; // data comes from url
   const { travelPlace } = req.body; // data comes from form which is an object
   TravelClub.findByIdAndUpdate(id, travelPlace, (err, updatedTravelPlace) => {
@@ -102,7 +74,7 @@ router.put('/:id', checkTravelPlaceOwnership, (req, res) => {
   });
 });
 // DESTROY route - deletes one travel place
-router.delete('/:id', checkTravelPlaceOwnership, (req, res) => {
+router.delete('/:id', middleware.checkTravelPlaceOwnership, (req, res) => {
   const { id } = req.params;
   TravelClub.findByIdAndRemove(id, (err) => {
     if(err) {

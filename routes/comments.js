@@ -2,38 +2,10 @@ const express = require('express');
 const router = express.Router({ mergeParams: true }); //mergeParams enables us to use req.params 
 const TravelClub = require('../models/travelclub');
 const Comment = require('../models/comment');
-
-// Create a middleware to handle unathorized access
-const isLoggedIn = (req, res, next) => {
-  if(req.isAuthenticated()) return next(); // if authorized, move to next step
-  res.redirect('/login'); // if not authorized, redirect to login
-}
-
-// middleware to check authorization
-const checkCommentOwnership = (req, res, next) => {
-  const { comment_id } = req.params;
-  // if user is logged in
-  if (req.isAuthenticated()) {
-    Comment.findById(comment_id, (err, foundComment) => {
-      if(err) {
-        res.redirect('back');  // using back takes user back to the original page
-        console.log(err);
-      } else {
-        // does user own the travel place?
-        if (foundComment.author.id.equals(req.user._id)) {  // we need to use mongoose' equals method bc author.id is an object
-          next();                                           // and req.user._id is a string even though they look identical
-        } else { // otherwise redirect
-          res.redirect('back');
-        }
-      }
-    });
-  } else { // user is not logged in so redirect back
-    res.redirect('back'); 
-  }
-}
+const middleware = require('../middleware');
 
 // New Comments
-router.get('/new', isLoggedIn, (req, res) => { //isLogged middleware enables/disables access to create a comment
+router.get('/new', middleware.isLoggedIn, (req, res) => { //isLogged middleware enables/disables access to create a comment
   // find the travel place by id
   const {id } = req.params;
   TravelClub.findById(id, (err, travelPlace) => {
@@ -45,7 +17,7 @@ router.get('/new', isLoggedIn, (req, res) => { //isLogged middleware enables/dis
 });
 
 // Create Comments
-router.post('/', isLoggedIn, (req, res) => {
+router.post('/', middleware.isLoggedIn, (req, res) => {
   const { id } = req.params; //get the id from url
   TravelClub.findById(id, (err, travelPlace) => {
     if(err) console.log(err);
@@ -70,7 +42,7 @@ router.post('/', isLoggedIn, (req, res) => {
 });
 
 // Edit Comments
-router.get('/:comment_id/edit', checkCommentOwnership, (req, res) => {
+router.get('/:comment_id/edit', middleware.checkCommentOwnership, (req, res) => {
   const { id, comment_id } = req.params;
   Comment.findById(comment_id, (err, foundComment) => {
     if(err) {
@@ -83,7 +55,7 @@ router.get('/:comment_id/edit', checkCommentOwnership, (req, res) => {
 });
 
 // Update Comments
-router.put('/:comment_id', checkCommentOwnership, (req, res) => {
+router.put('/:comment_id', middleware.checkCommentOwnership, (req, res) => {
   const { id, comment_id } = req.params;
   const { comment } = req.body;
   Comment.findByIdAndUpdate(comment_id, comment, (err, updatedComment) => {
@@ -97,7 +69,7 @@ router.put('/:comment_id', checkCommentOwnership, (req, res) => {
 });
 
 // Destroy Route - Delete Comments
-router.delete('/:comment_id', checkCommentOwnership, (req, res) => {
+router.delete('/:comment_id', middleware.checkCommentOwnership, (req, res) => {
   const { id, comment_id } = req.params;
   Comment.findByIdAndRemove(comment_id, (err) => {
     if(err) {
