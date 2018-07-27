@@ -59,6 +59,18 @@ router.get('/:comment_id/edit', (req, res) => {
   });
 });
 
-
+// Update Comments
+router.put('/:comment_id', (req, res) => {
+  const { id, comment_id } = req.params;
+  const { comment } = req.body;
+  Comment.findByIdAndUpdate(comment_id, comment, (err, updatedComment) => {
+    if(err) {
+      res.redirect('back');
+      console.log(err);
+    } else {
+      res.redirect(`/travelplaces/${id}`);
+    }
+  });
+});
 
 module.exports = router;
