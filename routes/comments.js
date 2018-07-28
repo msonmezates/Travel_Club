@@ -44,12 +44,18 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
 // Edit Comments
 router.get('/:comment_id/edit', middleware.checkCommentOwnership, (req, res) => {
   const { id, comment_id } = req.params;
-  Comment.findById(comment_id, (err, foundComment) => {
-    if(err) {
+  TravelClub.findById(id, (err, foundTravelPlace) => {
+    if(err || !foundTravelPlace) {
+      req.flash('error', 'Travel place not found!');
       res.redirect('back');
-    } else {
-      res.render('comments/edit', { travelPlace_id: id, comment: foundComment });
     }
+    Comment.findById(comment_id, (err, foundComment) => {
+      if(err) {
+        res.redirect('back');
+      } else {
+        res.render('comments/edit', { travelPlace_id: id, comment: foundComment });
+      }
+    });
   });
 });
 

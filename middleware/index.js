@@ -8,7 +8,7 @@ const middlewareObj = {
     // if user is logged in
     if (req.isAuthenticated()) {
       TravelClub.findById(id, (err, foundTravelPlace) => {
-        if(err) {
+        if(err || !foundTravelPlace) {
           req.flash('error', 'Travel place not found!');
           res.redirect('back');  // using 'back' takes user back to the original page
         } else {
@@ -32,7 +32,7 @@ const middlewareObj = {
     // if user is logged in
     if (req.isAuthenticated()) {
       Comment.findById(comment_id, (err, foundComment) => {
-        if(err) {
+        if(err || !foundComment) {
           req.flash('error', 'Comment not found!');
           res.redirect('back');  // using back takes user back to the original page
         } else {

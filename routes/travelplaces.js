@@ -44,8 +44,10 @@ router.get('/new', middleware.isLoggedIn, (req,res) => {
 router.get('/:id', (req,res) => {
   const { id } = req.params;
   TravelClub.findById(id).populate('comments').exec((err, foundTravelPlace) => {  // populate('comments').exec(function(){}) enables us to show 
-    if(err) console.log(err);                                                     // the data based on id
-    else {
+    if(err || !foundTravelPlace) {                                                // the data based on id
+      req.flash('error', 'Travel place not found!');
+      res.redirect('back');
+    } else {
       res.render('travelPlaces/show', { travelPlace: foundTravelPlace });
     }
   });
