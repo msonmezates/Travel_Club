@@ -28,7 +28,6 @@ router.post('/', middleware.isLoggedIn, (req,res) => {
     if(err) console.log(err);
     else {
       // redirect back to travel places page
-      console.log(newPlace)
       res.redirect('/travelplaces');
     }
   });
@@ -47,7 +46,6 @@ router.get('/:id', (req,res) => {
   TravelClub.findById(id).populate('comments').exec((err, foundTravelPlace) => {  // populate('comments').exec(function(){}) enables us to show 
     if(err) console.log(err);                                                     // the data based on id
     else {
-      console.log(foundTravelPlace);
       res.render('travelPlaces/show', { travelPlace: foundTravelPlace });
     }
   });
@@ -67,7 +65,6 @@ router.put('/:id', middleware.checkTravelPlaceOwnership, (req, res) => {
   TravelClub.findByIdAndUpdate(id, travelPlace, (err, updatedTravelPlace) => {
     if(err) {
       res.redirect('/travelplaces');
-      console.log(err);
     } else {
       res.redirect(`/travelplaces/${id}`); // redirect to the same travel place page
     }
@@ -79,7 +76,6 @@ router.delete('/:id', middleware.checkTravelPlaceOwnership, (req, res) => {
   TravelClub.findByIdAndRemove(id, (err) => {
     if(err) {
       res.redirect('/travelplaces');
-      console.log(err);
     } else {
       res.redirect('/travelplaces');
     }

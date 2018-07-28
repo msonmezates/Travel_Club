@@ -33,7 +33,7 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
 
           travelPlace.comments.push(comment);
           travelPlace.save();
-          console.log(comment)
+          req.flash('success', 'Comment created!');
           res.redirect(`/travelplaces/${travelPlace._id}`);
         }
       });
@@ -47,7 +47,6 @@ router.get('/:comment_id/edit', middleware.checkCommentOwnership, (req, res) => 
   Comment.findById(comment_id, (err, foundComment) => {
     if(err) {
       res.redirect('back');
-      console.log(err);
     } else {
       res.render('comments/edit', { travelPlace_id: id, comment: foundComment });
     }
@@ -61,7 +60,6 @@ router.put('/:comment_id', middleware.checkCommentOwnership, (req, res) => {
   Comment.findByIdAndUpdate(comment_id, comment, (err, updatedComment) => {
     if(err) {
       res.redirect('back');
-      console.log(err);
     } else {
       res.redirect(`/travelplaces/${id}`);
     }
@@ -74,8 +72,8 @@ router.delete('/:comment_id', middleware.checkCommentOwnership, (req, res) => {
   Comment.findByIdAndRemove(comment_id, (err) => {
     if(err) {
       res.redirect('back');
-      console.log(err);
     } else {
+      req.flash('success', 'Comment deleted!');
       res.redirect(`/travelplaces/${id}`);
     }
   });

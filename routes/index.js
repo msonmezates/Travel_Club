@@ -19,10 +19,11 @@ router.post('/register', (req, res) => {
   const newUser = new User({ username });
   User.register(newUser, password, (err, user) => {
     if(err) {
-      console.log(err);
+      req.flash('error', err.message);
       return res.render('register');
     } 
     passport.authenticate('local')(req, res, () => { // we are using local strategy
+      req.flash('success', `Welcome to Travel Club ${user.username.charAt(0).toUpperCase() + user.username.slice(1)}`);
       res.redirect('/travelplaces');
     });
   })
@@ -44,7 +45,7 @@ router.post('/login', passport.authenticate('local', {
 // Logout Route
 router.get('/logout', (req, res) => {
   req.logout();
-  req.flash('success', 'Logged out!')
+  req.flash('success', 'You are logged out!')
   res.redirect('/travelplaces');
 });
 
