@@ -17,12 +17,12 @@ router.get('/', (req,res) => {
 // CREATE route - add new places to DB
 router.post('/', middleware.isLoggedIn, (req,res) => {
   // get the data from form and add it into travelPlaces
-  const { name, image, description } = req.body;
+  const { name, price, image, description } = req.body;
   const author = {
     id: req.user._id,
     username: req.user.username
   };
-  const newTravelPlace = { name, image, description, author }; //add this object into travelplaces array
+  const newTravelPlace = { name, price, image, description, author }; //add this object into travelplaces array
   // create a new place and save to DB
   TravelClub.create(newTravelPlace, (err, newPlace) => {
     if(err) console.log(err);
