@@ -1,0 +1,77 @@
+body {
+  background: #000;
+}
+
+#landing-header {
+  z-index: 1;
+  position: relative; /* z-index doesn't work with default 'static' */
+  text-align: center;
+  padding-top: 40vh;
+}
+
+#landing-header h1 {
+  color: #fff;
+}
+
+.slideshow {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+}
+
+.slideshow li {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  z-index: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  animation: imageSlider 25s linear infinite;
+}
+
+.slideshow li:nth-child(1) {
+  background-image: url(https://www.adavegastravel.com/wp-content/uploads/2016/08/istanbul-1140x530.jpg);
+}
+.slideshow li:nth-child(2) {
+  background-image: url(http://europeanbusinessmagazine.com/wp-content/uploads/2017/07/paris.jpg);
+  animation-delay: 5s;
+}
+.slideshow li:nth-child(3) {
+  background-image: url(http://www.cleantechconcepts.com/wordpress/wp-content/uploads/2017/11/Italian-coast.jpg);
+  animation-delay: 10s;
+}
+.slideshow li:nth-child(4) {
+  background-image: url(https://amp.businessinsider.com/images/5984caa24fc3c01c008b5b75-750-500.jpg);
+  animation-delay: 15s;
+}
+.slideshow li:nth-child(5) {
+  background-image: url(http://www.organizacionexplora.com/wp-content/uploads/2018/05/curiosidades-sobre-brasil-01-696x464.jpg);
+  animation-delay: 20s;
+}
+
+@keyframes imageSlider {
+  0% {
+    opacity: 0;
+    animation-timing-function: ease-in;
+  }
+  10% {
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+  20% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0;
+  }
+}

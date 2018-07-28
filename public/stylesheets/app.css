@@ -1,3 +1,7 @@
 .delete-form {
   display: inline;
 }
+
+#footer {
+  padding-left: 2vh;
+}
