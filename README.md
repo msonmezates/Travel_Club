@@ -51,6 +51,12 @@ To see the app in action, go to [https://travelclub.com](https://travelclub.com)
 git clone https://github.com/msonmezates/Travel_Club.git
 ```
 
+### Change directory
+
+```sh
+Navigate into directory `cd Travel_Club`
+```
+
 ### Install dependencies
 
 ```sh
@@ -61,6 +67,12 @@ or
 
 ```sh
 yarn install
+```
+
+### Run
+
+```sh
+node app.js
 ```
 
 ### Comments in code
