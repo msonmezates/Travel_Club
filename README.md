@@ -73,6 +73,8 @@ yarn install
 
 ```sh
 node app.js
+
+> Server runs on http://localhost:3000
 ```
 
 ### Comments in code
