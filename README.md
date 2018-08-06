@@ -1,22 +1,3 @@
-<<<<<<< HEAD
-# Travel Club
-
-## This application is a simple travel guide that is created with MongoDB, Express and Node.js.
-
-## Setup
-
-1.  Make sure you have `yarn` installed: `npm install -g yarn`
-    1.  If you have a permission error then run `sudo npm install -g yarn`
-2.  Clone repository: `git clone https://github.com/AustinDevs/event-crawler.git`
-3.  Navigate into directory `cd events-crawler`
-4.  Install dependencies `yarn`
-
-## Run
-
-1.  `node index.js`, should generate a file called `events.json`
-||||||| merged common ancestors
-# This application is a simple travel guide that is created with MongoDB, Express and Node.js.
-=======
 # Travel Club
 
 [![Known Vulnerabilities](https://snyk.io/test/github/lucasweng/yelp-camp/badge.svg)](https://snyk.io/test/github/lucasweng/yelp-camp)
@@ -26,39 +7,39 @@
 
 ## Live Demo
 
-To see the app in action, go to [https://travelclub.com](https://travelclub.com)
+To see the app in action, go to [https://travelclub.com](https://lit-forest-10880.herokuapp.com/)
 
 ## Features
 
-* Authentication:
-  
-  * User login with username and password
+- Authentication:
 
-* Authorization:
+  - User login with username and password
 
-  * One cannot manage posts and view user profile without being authenticated
+- Authorization:
 
-  * One cannot edit or delete posts and comments created by other users
+  - One cannot manage posts and view user profile without being authenticated
 
-* Manage travel place posts with basic functionalities:
+  - One cannot edit or delete posts and comments created by other users
 
-  * Create, edit and delete posts and comments
+- Manage travel place posts with basic functionalities:
 
-  * Upload travel place photos
+  - Create, edit and delete posts and comments
 
-* Manage user account with basic functionalities:
+  - Upload travel place photos
 
-  * Profile page setup with sign-up
+- Manage user account with basic functionalities:
 
-* Flash messages responding to users' interaction with the app
+  - Profile page setup with sign-up
 
-* Responsive web design
+- Flash messages responding to users' interaction with the app
+
+- Responsive web design
 
 ### Custom Enhancements
 
-* Update travel place photos when editing 
+- Update travel place photos when editing
 
-* Update personal information on profile page
+- Update personal information on profile page
 
 ## Getting Started
 
@@ -104,21 +85,20 @@ Some comments in the source code are course notes and therefore might not seem n
 
 ### Front-end
 
-* [ejs](http://ejs.co/)
-* [Bootstrap](https://getbootstrap.com/)
+- [ejs](http://ejs.co/)
+- [Bootstrap](https://getbootstrap.com/)
 
 ### Back-end
 
-* [express](https://expressjs.com/)
-* [mongoDB](https://www.mongodb.com/)
-* [mongoose](http://mongoosejs.com/)
-* [passport](http://www.passportjs.org/)
-* [passport-local](https://github.com/jaredhanson/passport-local#passport-local)
-* [express-session](https://github.com/expressjs/session#express-session)
-* [method-override](https://github.com/expressjs/method-override#method-override)
-* [connect-flash](https://github.com/jaredhanson/connect-flash#connect-flash)
+- [express](https://expressjs.com/)
+- [mongoDB](https://www.mongodb.com/)
+- [mongoose](http://mongoosejs.com/)
+- [passport](http://www.passportjs.org/)
+- [passport-local](https://github.com/jaredhanson/passport-local#passport-local)
+- [express-session](https://github.com/expressjs/session#express-session)
+- [method-override](https://github.com/expressjs/method-override#method-override)
+- [connect-flash](https://github.com/jaredhanson/connect-flash#connect-flash)
 
 ## License
 
 #### [MIT](./LICENSE)
->>>>>>> dba06d88245685ff97e56a2c714169bad3987808
