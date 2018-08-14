@@ -14,9 +14,10 @@ const commentRoutes = require("./routes/comments"),
   travelPlaceRoutes = require("./routes/travelplaces"),
   indexRoutes = require("./routes/index");
 
-seedDataBase(); // Always seed database before running the code
+// seedDataBase(); // seed database before running the code
 // mongoose.connect('mongodb://localhost/travel_club');
-mongoose.connect("mongodb://mehmet:abc123@ds115022.mlab.com:15022/travelclub"); // Use mlab for easy deployment
+// mongoose.connect("mongodb://mehmet:abc123@ds115022.mlab.com:15022/travelclub"); // Use mlab for easy deployment
+mongoose.connect(process.env.databaseURL);
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
