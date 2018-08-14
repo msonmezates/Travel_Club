@@ -15,8 +15,6 @@ const commentRoutes = require("./routes/comments"),
   indexRoutes = require("./routes/index");
 
 // seedDataBase(); // seed database before running the code
-// mongoose.connect('mongodb://localhost/travel_club');
-// mongoose.connect("mongodb://mehmet:abc123@ds115022.mlab.com:15022/travelclub"); // Use mlab for easy deployment
 mongoose.connect(process.env.databaseURL);
 
 app.set("view engine", "ejs");
