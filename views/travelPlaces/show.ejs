@@ -1,69 +1,77 @@
 <% include ../partials/header %>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-3">
-      <p class="lead">TravelClub</p>
-      <ul class="list-group">
-        <li class="list-group-item active">Example 1</li>
-        <li class="list-group-item">Example 2</li>
-        <li class="list-group-item">Example 3</li>
-      </ul>
-    </div>
-    <div class="col-md-9">
-      <div class="card">
-        <img class="card-img-top" src="<%= travelPlace.image %>"/>
-        <div class="card-body">
-          <div class="d-flex align-items-center">
-            <h3 class="card-title"><a href="#"><%= travelPlace.name %></a></h3>
-            <h4 class="card-title ml-auto">$<%= travelPlace.price %>/night</h4>
-          </div>
-          <p class="card-text"><%= travelPlace.description %></p>
-          <p class="card-text">
-            <em>Submitted By <%= travelPlace.author.username %></em>
-          </p>
-          <!-- Don't display delete button if user isn't logged in -->
-          <% if(currentUser && travelPlace.author.id.equals(currentUser._id)) { %>
-            <a class="btn btn-sm btn-warning" href="/travelplaces/<%= travelPlace._id %>/edit">Edit</a>
-            <!-- create a form to delete the travel travelPlace -->
-            <form class="delete-form" action="/travelplaces/<%= travelPlace._id %>?_method=DELETE" method="POST">
-              <button class="btn btn-sm btn-danger">Delete</button>
-            </form>
-          <% } %>
-        </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <p class="lead">TravelClub</p>
+        <ul class="list-group">
+          <li class="list-group-item active">Example 1</li>
+          <li class="list-group-item">Example 2</li>
+          <li class="list-group-item">Example 3</li>
+        </ul>
       </div>
-
-      <div class="card mt-3">
-        <div class="card-body">
-          <div class="card-text d-flex pb-2">
-            <a class="btn btn-success ml-auto" href="/travelplaces/<%= travelPlace._id %>/comments/new">Add a comment</a>
-          </div>
-          <% travelPlace.comments.map(comment => { %>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="d-flex">
-                    <strong><%= comment.author.username %></strong>
-                    <span class="ml-auto">25 days ago</span>
-                </div>
-                <p>
-                  <%= comment.text %>
-                </p>
-                <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
-                  <a 
-                    class="btn btn-sm btn-warning" 
-                    href="/travelplaces/<%= travelPlace._id %>/comments/<%= comment._id %>/edit"
-                  >Edit</a>
-                  <form class="delete-form" action="/travelplaces/<%= travelPlace._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-                    <button class="btn btn-sm btn-danger">Delete</button>
-                  </form>
-                <% } %>
-              </div>
+      <div class="col-md-9">
+        <div class="card">
+          <img class="card-img-top" src="<%= travelPlace.image %>" />
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <h3 class="card-title">
+                <a href="#">
+                  <%= travelPlace.name %>
+                </a>
+              </h3>
+              <h4 class="card-title ml-auto">$
+                <%= travelPlace.price %>/night</h4>
             </div>
-          <% }); %>
+            <p class="card-text">
+              <%= travelPlace.description %>
+            </p>
+            <p class="card-text">
+              <em>Submitted By
+                <%= travelPlace.author.username %>
+              </em>
+            </p>
+            <!-- Don't display delete button if user isn't logged in -->
+            <% if(currentUser && travelPlace.author.id.equals(currentUser._id)) { %>
+              <a class="btn btn-sm btn-warning" href="/travelplaces/<%= travelPlace._id %>/edit">Edit</a>
+              <!-- create a form to delete the travel travelPlace -->
+              <form class="delete-form" action="/travelplaces/<%= travelPlace._id %>?_method=DELETE" method="POST">
+                <button class="btn btn-sm btn-danger">Delete</button>
+              </form>
+              <% } %>
+          </div>
+        </div>
+
+        <div class="card mt-3">
+          <div class="card-body">
+            <div class="card-text d-flex pb-2">
+              <a class="btn btn-success ml-auto" href="/travelplaces/<%= travelPlace._id %>/comments/new">Add a comment</a>
+            </div>
+            <% travelPlace.comments.map(comment => { %>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="d-flex">
+                    <strong>
+                      <%= comment.author.username %>
+                    </strong>
+                    <span class="ml-auto">25 days ago</span>
+                  </div>
+                  <p>
+                    <%= comment.text %>
+                  </p>
+                  <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
+                    <a class="btn btn-sm btn-warning" href="/travelplaces/<%= travelPlace._id %>/comments/<%= comment._id %>/edit">Edit</a>
+                    <form class="delete-form" action="/travelplaces/<%= travelPlace._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                      <button class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                    <% } %>
+                </div>
+              </div>
+              <% }); %>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<% include ../partials/footer %>
+  <% include ../partials/footer %>

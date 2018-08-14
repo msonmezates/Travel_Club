@@ -2,6 +2,10 @@
   display: inline;
 }
 
+.main-image {
+  height: 30vh;
+}
+
 #footer {
   padding-left: 2vh;
 }
