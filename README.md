@@ -77,9 +77,6 @@ node app.js
 > Server runs on http://localhost:3000
 ```
 
-### Comments in code
-
-Some comments in the source code are course notes and therefore might not seem necessary from a developer's point of view.
 
 ## Built with
 
